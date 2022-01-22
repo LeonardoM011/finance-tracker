@@ -1,0 +1,1 @@
+Run by first running webpack to build react app (npm run build) then run spring boot app (./mvnw spring-boot:run)
