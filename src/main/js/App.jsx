@@ -1,11 +1,10 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-
-function App() {
-    return <h1>Hello Tino</h1>
-}
+import Interface from "./Interface.jsx";
 
 ReactDOM.render(
-    <App />,
+    <React.StrictMode>
+        <Interface />
+    </React.StrictMode>,
     document.getElementById('react')
 )

@@ -4,19 +4,14 @@ const path = require('path');
 
 const isProduction = process.env.NODE_ENV == 'production';
 
-
-const stylesHandler = 'style-loader';
-
-
+//const stylesHandler = 'style-loader';
 
 const config = {
-    entry: './src/main/js/app.js',
+    entry: './src/main/js/App.jsx',
     devtool: 'source-map',
+    // TODO: Change this to take in env variable
+    mode: 'development',
     cache: true,
-    output: {
-        path: __dirname,
-        filename: './src/main/resources/static/built/bundle.js'
-    },
     devServer: {
         open: true,
         host: 'localhost',
@@ -42,13 +37,20 @@ const config = {
     },
 };
 
-module.exports = () => {
-    if (isProduction) {
-        config.mode = 'production';
+const configSrc = Object.assign({}, config, {
+    name: "configSrc",
+    output: {
+        path: __dirname,
+        filename: './src/main/resources/static/built/bundle.js'
+    },
+});
 
+const configTarget = Object.assign({}, config, {
+    name: "configTarget",
+    output: {
+        path: __dirname,
+        filename: './target/classes/static/built/bundle.js'
+    },
+});
 
-    } else {
-        config.mode = 'development';
-    }
-    return config;
-};
+module.exports = [configSrc, configTarget];
