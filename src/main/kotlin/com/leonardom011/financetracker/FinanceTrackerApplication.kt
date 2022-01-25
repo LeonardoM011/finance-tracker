@@ -1,5 +1,6 @@
 package com.leonardom011.financetracker
 
+import org.springframework.boot.Banner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
@@ -7,5 +8,7 @@ import org.springframework.boot.runApplication
 class FinanceTrackerApplication
 
 fun main(args: Array<String>) {
-    runApplication<FinanceTrackerApplication>(*args)
+    runApplication<FinanceTrackerApplication>(*args) {
+        setBannerMode(Banner.Mode.OFF)
+    }
 }

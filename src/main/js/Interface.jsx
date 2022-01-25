@@ -1,5 +1,6 @@
 const React = require('react');
 import { Grid, Button } from '@material-ui/core';
+import "./Interface.css";
 
 function Interface() {
     return(
