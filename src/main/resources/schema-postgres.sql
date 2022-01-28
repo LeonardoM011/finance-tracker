@@ -1,1 +1,2 @@
-CREATE TABLE IF NOT EXISTS items(id serial PRIMARY KEY, name VARCHAR(255), category VARCHAR(255), price float);
+DROP TABLE IF EXISTS items;
+CREATE TABLE IF NOT EXISTS items(id serial PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, category VARCHAR(255) NOT NULL, price float NOT NULL);
