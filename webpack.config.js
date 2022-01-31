@@ -5,7 +5,6 @@ const path = require('path');
 const isProduction = process.env.NODE_ENV == 'production';
 
 const config = {
-    entry: './src/main/js/App.jsx',
     devtool: 'source-map',
     // TODO: Change this to take in env variable
     mode: 'development',
@@ -44,6 +43,7 @@ const config = {
 
 const configSrc = Object.assign({}, config, {
     name: "configSrc",
+    entry: './src/main/js/App.jsx',
     output: {
         path: __dirname,
         filename: './src/main/resources/static/built/bundle.js'
@@ -52,10 +52,29 @@ const configSrc = Object.assign({}, config, {
 
 const configTarget = Object.assign({}, config, {
     name: "configTarget",
+    entry: './src/main/js/App.jsx',
     output: {
         path: __dirname,
         filename: './target/classes/static/built/bundle.js'
     },
 });
 
-module.exports = [configSrc, configTarget];
+const configLoginSrc = Object.assign({}, config, {
+    name: "configLoginSrc",
+    entry: './src/main/js/Login.jsx',
+    output: {
+        path: __dirname,
+        filename: './src/main/resources/static/built/login.js'
+    },
+});
+
+const configLoginTarget = Object.assign({}, config, {
+    name: "configLoginTarget",
+    entry: './src/main/js/Login.jsx',
+    output: {
+        path: __dirname,
+        filename: './target/classes/static/built/login.js'
+    },
+});
+
+module.exports = [configSrc, configTarget, configLoginSrc, configLoginTarget];

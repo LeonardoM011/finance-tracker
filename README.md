@@ -3,21 +3,31 @@ by LeonardoM011
 
 ### Made with spring boot in kotlin, react with material ui, postgresql and deployed in docker
 
-## First run (for windows):
-### 1. install mvn dependencies
+## Install and setup PostgreSQL  
+### 1. install PostgreSQL  
+### 2. create database:  
+```
+CREATE DATABASE finance-tracker;
+```
+### 3. set env variable for postgresql password inside intellij terminal (or set in windows env variables):  
+```
+$env:POSTGRESQL_PASS="password"
+```
+## First run (for windows):  
+### 1. install mvn dependencies:  
 ```
 ./mvnw install
 ```
-### 2. build react app
+### 2. build react app:  
 ```
 npm run build
 ```
-### 3. run spring boot
+### 3. run spring boot:  
 ```
 ./mvnw springboot:run
 ```
 ## Developing (using intellij):  
-### 1. turn on watch for changes webpack in powershell terminal
+### 1. turn on watch for changes webpack in powershell terminal:  
 ```
 npm run watch
 ```

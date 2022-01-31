@@ -5,6 +5,22 @@
     <title>Item</title>
 </head>
 <body>
-    <h1 th:text="${title}"></h1>
+    <table>
+        <thead>
+        <tr>
+            <th> Title </th>
+            <th> Author </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${items.empty}">
+            <td colspan="2"> No Books Available </td>
+        </tr>
+        <tr th:each="item : ${items}">
+            <td><span th:text="${item.name}"> Title </span></td>
+            <td><span th:text="${item.price}"> Author </span></td>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>

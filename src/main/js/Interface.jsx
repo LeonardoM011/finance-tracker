@@ -17,7 +17,7 @@ function Interface() {
             <Grid item xs={6}>
                 <Button variant="contained">Hello World</Button>
             </Grid>
-        </Grid>)
+        </Grid>);
 }
 
 export default Interface;
