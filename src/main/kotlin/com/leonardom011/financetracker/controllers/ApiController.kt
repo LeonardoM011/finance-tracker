@@ -1,11 +1,10 @@
 package com.leonardom011.financetracker.controllers
 
 import com.leonardom011.financetracker.repositories.ItemRepository
+import org.apache.catalina.realm.X509UsernameRetriever
+import org.json.JSONObject
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
 @RestController

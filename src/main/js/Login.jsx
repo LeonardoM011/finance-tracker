@@ -1,29 +1,53 @@
-import {AccountCircle} from "@mui/icons-material";
+import {AccountCircle, Lock} from "@mui/icons-material";
 
 const React = require('react');
 import {Grid, Button, TextField, FormControl, InputAdornment, Input} from '@material-ui/core';
 import SendIcon from '@mui/icons-material/Send';
 const ReactDOM = require('react-dom');
 import "./Login.css";
+import {useState} from "react";
 
 function Login() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const postBody = JSON.stringify({
+            username: username,
+            password: password
+        });
+        fetch("/login-post", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: postBody
+        })
+            .then(response => response.json())
+            .then(data => alert(data.status));
+    }
+
     return (
-        <FormControl>
+        <form onSubmit={handleSubmit}>
             <Grid container spacing={2} id={"wrapper"}>
                 <Grid item xs={12}>
                     <h1>Finance Tracker</h1>
-                    <h3>Ulogirajte se</h3>
+                    <h3>Prijavite se</h3>
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
                         id="username"
                         label="Username"
                         autoComplete="current-username"
-                        startAdornment={
-                            <InputAdornment position="start">
-                                <AccountCircle />
-                            </InputAdornment>
-                        }
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <AccountCircle />
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -32,18 +56,22 @@ function Login() {
                         label="Password"
                         type="password"
                         autoComplete="current-password"
-                        startAdornment={
-                            <InputAdornment position="start">
-                                <Lock />
-                            </InputAdornment>
-                        }
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <Lock />
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <Button endIcon={<SendIcon />} variant="contained" color="success" type={"submit"}>Login</Button>
+                    <Button endIcon={<SendIcon />} variant="contained" type={"submit"}>Login</Button>
                 </Grid>
             </Grid>
-        </FormControl>);
+        </form>);
 }
 
 ReactDOM.render(
