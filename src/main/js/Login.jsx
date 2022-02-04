@@ -19,12 +19,16 @@ function Login() {
             password: password
         });
         fetch("/login-post", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: postBody
-        })
-            .then(response => response.json())
-            .then(data => alert(data.status));
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: postBody
+            })
+            .then(response => {
+                if (response.status == 401) {
+
+                }
+            });
+            /*.then(data => alert(data));*/
     }
 
     return (

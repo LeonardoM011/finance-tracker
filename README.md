@@ -41,3 +41,4 @@ So you don't have to run npm run build everytime you make changes to react files
 - [ ] Add Docker support and guide 🐋
 - [ ] Add PostgreSQL support and guide 🐘
 - [ ] Login and security 🔐
+- [ ] Set timer to delete cookies server side ⏰

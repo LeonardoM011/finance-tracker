@@ -1,14 +1,14 @@
 package com.leonardom011.financetracker.controllers
 
-import com.leonardom011.financetracker.repositories.ItemRepository
 import com.leonardom011.financetracker.repositories.UserRepository
+import com.leonardom011.financetracker.services.AuthenticationSystem
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.server.ResponseStatusException
+import org.springframework.http.ResponseCookie
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import javax.servlet.http.Cookie
+
 
 class LoginInfo (
     var username : String,
@@ -17,20 +17,42 @@ class LoginInfo (
 @RestController
 class LoginController(private val repository: UserRepository) {
 
-    @PostMapping("/login-post", consumes = ["application/json"], produces = ["application/json"])
-    fun loginPost(@RequestBody loginInfo : LoginInfo) : HashMap<String, Any> {
-        val data = HashMap<String, Any>()
+    //@CrossOrigin(origins = ["http://localhost:8080"], allowCredentials = "true")
+    @RequestMapping("/login-post", consumes = ["application/json"])
+    fun loginPost(@RequestBody loginInfo : LoginInfo) : ResponseEntity<Any> {
         val user = repository.findByUsername(loginInfo.username)
 
+        // If username does not exist or if password is not correct return error 401
         if (user == null || user.password != loginInfo.password) {
-            data["status"] = 404
-            data["authentication-key"] = ""
-            return data
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        data["status"] = 200
-        data["authentication-key"] = 1234
-        return data
+        val key = AuthenticationSystem.generateKey(user.user_id)
+        val resCookie = ResponseCookie
+            .from("authentication-key", key)
+            .httpOnly(true)
+            .secure(true)
+            .path("/")
+            .maxAge((1 * 24 * 60 * 60).toLong())
+            .domain("localhost")
+            .build()
+
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).build();
+    }
+
+    @GetMapping("/logout")
+    fun logout(@CookieValue(name = "authentication-key", defaultValue = "") authKey : String) : ResponseEntity<Any> {
+
+        val userId = AuthenticationSystem.getUserId(authKey)
+        if (userId != null) {
+            AuthenticationSystem.deleteKeysForUser(userId)
+        }
+
+        val resCookie = ResponseCookie
+            .from("authentication-key", null.toString())
+            .build()
+
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).build();
     }
 
 }

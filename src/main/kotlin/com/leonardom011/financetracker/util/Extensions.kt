@@ -31,3 +31,7 @@ fun String.toSlug() = lowercase(Locale.getDefault())
     .split(" ")
     .joinToString("-")
     .replace("-+".toRegex(), "-")
+
+fun randomID(): String = List(32) {
+    (('a'..'z') + ('A'..'Z') + ('0'..'9')).random()
+}.joinToString("")
