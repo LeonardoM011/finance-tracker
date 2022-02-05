@@ -1,20 +1,23 @@
 package com.leonardom011.financetracker.controllers
 
 import com.leonardom011.financetracker.repositories.ItemRepository
+import com.leonardom011.financetracker.services.AuthenticationSystem
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 
 @Controller
 class HtmlController(private val repository: ItemRepository) {
 
     @GetMapping("/")
-    fun index() : String {
+    fun index(@CookieValue(name = "authentication-key", defaultValue = "") authKey : String, model: Model) : String {
+        val userId = AuthenticationSystem.getUserId(authKey) ?: return "login"
+
+        model["userid"] = userId
         return "index"
     }
 

@@ -42,6 +42,15 @@ class AuthenticationSystem() {
             auth ?: return false
             return true
         }
+
+        fun deleteKey(authKey : String) : Boolean {
+            for ((key, value) in auth) {
+                if (value.remove(authKey)) {
+                    return true
+                }
+            }
+            return false
+        }
     }
 
 }

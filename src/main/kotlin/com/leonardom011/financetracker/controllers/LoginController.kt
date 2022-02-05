@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDateTime
+import java.util.*
 import javax.servlet.http.Cookie
 
 
@@ -15,12 +17,20 @@ class LoginInfo (
     var password : String)
 
 @RestController
+@RequestMapping("/auth")
 class LoginController(private val repository: UserRepository) {
 
-    //@CrossOrigin(origins = ["http://localhost:8080"], allowCredentials = "true")
-    @RequestMapping("/login-post", consumes = ["application/json"])
-    fun loginPost(@RequestBody loginInfo : LoginInfo) : ResponseEntity<Any> {
-        val user = repository.findByUsername(loginInfo.username)
+    @RequestMapping("/login", consumes = ["application/json"])
+    fun loginPost(@CookieValue(name = "authentication-key", defaultValue = "") authKey : String, @RequestBody loginInfo : LoginInfo) : ResponseEntity<Any> {
+
+        // Check if user is already logged in
+        if (AuthenticationSystem.userExists(authKey)) {
+            return ResponseEntity.ok().build()
+        }
+        // change username to be lowercase
+        val username = loginInfo.username.lowercase(Locale.getDefault())
+
+        val user = repository.findByUsername(username)
 
         // If username does not exist or if password is not correct return error 401
         if (user == null || user.password != loginInfo.password) {
@@ -37,11 +47,29 @@ class LoginController(private val repository: UserRepository) {
             .domain("localhost")
             .build()
 
+        // Set user last login to now
+        user.last_login = LocalDateTime.now()
+
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).build();
     }
 
     @GetMapping("/logout")
     fun logout(@CookieValue(name = "authentication-key", defaultValue = "") authKey : String) : ResponseEntity<Any> {
+
+        val userId = AuthenticationSystem.getUserId(authKey)
+        if (userId != null) {
+            AuthenticationSystem.deleteKey(authKey)
+        }
+
+        val resCookie = ResponseCookie
+            .from("authentication-key", null.toString())
+            .build()
+
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).build();
+    }
+
+    @GetMapping("/delete-keys")
+    fun deleteKeys(@CookieValue(name = "authentication-key", defaultValue = "") authKey : String) : ResponseEntity<Any> {
 
         val userId = AuthenticationSystem.getUserId(authKey)
         if (userId != null) {
