@@ -7,7 +7,11 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.text.DateFormat
+import java.time.DateTimeException
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.util.*
 import javax.servlet.http.Cookie
 
@@ -48,7 +52,9 @@ class LoginController(private val repository: UserRepository) {
             .build()
 
         // Set user last login to now
-        user.last_login = LocalDateTime.now()
+        user.last_login = LocalDateTime.now(ZoneOffset.UTC)
+        repository.save(user)
+
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).build();
     }

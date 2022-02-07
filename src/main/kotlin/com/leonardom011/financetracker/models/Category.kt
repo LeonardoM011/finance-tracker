@@ -1,5 +1,6 @@
 package com.leonardom011.financetracker.models;
 
+import java.time.Instant
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -9,6 +10,6 @@ public class Category(
     @Id @GeneratedValue(strategy = GenerationType.AUTO) var category_id: Int,
     var name: String,
     var slug_name: String,
-    var created: LocalDateTime,
+    var added_at: LocalDateTime,
     var created_by: Int
 )

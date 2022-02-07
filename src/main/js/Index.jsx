@@ -1,8 +1,9 @@
 const React = require('react');
+const ReactDOM = require('react-dom');
 import { Grid, Button } from '@material-ui/core';
-import "./Interface.css";
+import "./Index.css";
 
-function Interface() {
+function Index() {
     return(
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -20,4 +21,9 @@ function Interface() {
         </Grid>);
 }
 
-export default Interface;
+ReactDOM.render(
+    <React.StrictMode>
+        <Index />
+    </React.StrictMode>,
+    document.getElementById('react')
+)

@@ -26,6 +26,11 @@ class HtmlController(private val repository: ItemRepository) {
         return "login"
     }
 
+    @GetMapping("/register")
+    fun register() : String {
+        return "register"
+    }
+
     @GetMapping("/item/{id}")
     fun item(@PathVariable id: Int, model: Model): String {
         /*val item = repository

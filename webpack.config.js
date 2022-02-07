@@ -41,21 +41,21 @@ const config = {
     },
 };
 
-const configSrc = Object.assign({}, config, {
-    name: "configSrc",
-    entry: './src/main/js/App.jsx',
+const configIndexSrc = Object.assign({}, config, {
+    name: "configIndexSrc",
+    entry: './src/main/js/Index.jsx',
     output: {
         path: __dirname,
-        filename: './src/main/resources/static/built/bundle.js'
+        filename: './src/main/resources/static/built/index.js'
     },
 });
 
-const configTarget = Object.assign({}, config, {
-    name: "configTarget",
-    entry: './src/main/js/App.jsx',
+const configIndexTarget = Object.assign({}, config, {
+    name: "configIndexTarget",
+    entry: './src/main/js/Index.jsx',
     output: {
         path: __dirname,
-        filename: './target/classes/static/built/bundle.js'
+        filename: './target/classes/static/built/index.js'
     },
 });
 
@@ -77,4 +77,22 @@ const configLoginTarget = Object.assign({}, config, {
     },
 });
 
-module.exports = [configSrc, configTarget, configLoginSrc, configLoginTarget];
+const configRegisterSrc = Object.assign({}, config, {
+    name: "configRegisterSrc",
+    entry: './src/main/js/Register.jsx',
+    output: {
+        path: __dirname,
+        filename: './src/main/resources/static/built/register.js'
+    },
+});
+
+const configRegisterTarget = Object.assign({}, config, {
+    name: "configRegisterTarget",
+    entry: './src/main/js/Register.jsx',
+    output: {
+        path: __dirname,
+        filename: './target/classes/static/built/register.js'
+    },
+});
+
+module.exports = [configIndexSrc, configIndexTarget, configLoginSrc, configLoginTarget, configRegisterSrc, configRegisterTarget];

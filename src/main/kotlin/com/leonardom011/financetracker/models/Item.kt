@@ -1,5 +1,6 @@
 package com.leonardom011.financetracker.models
 
+import java.time.Instant
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -12,6 +13,6 @@ class Item(
     var category_id: Int,
     var quantity: Int,
     var price: Float,
-    var addedAt: LocalDateTime,
+    var added_at: LocalDateTime,
     var user_id: Int
 )

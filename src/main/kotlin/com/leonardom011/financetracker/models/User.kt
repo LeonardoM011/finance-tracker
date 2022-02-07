@@ -1,5 +1,6 @@
 package com.leonardom011.financetracker.models
 
+import java.time.Instant
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -10,7 +11,5 @@ class User (
     var username: String,
     var password: String,
     var last_login: LocalDateTime,
-    var created: LocalDateTime,
     var added_at: LocalDateTime
 )
-
