@@ -1,4 +1,5 @@
 SELECT
+    email,
     username,
     password,
     items.name,

@@ -15,6 +15,10 @@ import java.time.ZoneOffset
 import java.util.*
 import javax.servlet.http.Cookie
 
+class RegisterInfo (
+    var email : String,
+    var username : String,
+    var password : String)
 
 class LoginInfo (
     var username : String,
@@ -29,6 +33,41 @@ class LoginController(private val repository: UserRepository) {
 
         // Check if user is already logged in
         if (AuthenticationSystem.userExists(authKey)) {
+            return ResponseEntity.ok().build()
+        }
+        // change username to be lowercase
+        val username = loginInfo.username.lowercase(Locale.getDefault())
+
+        val user = repository.findByUsername(username)
+
+        // If username does not exist or if password is not correct return error 401
+        if (user == null || user.password != loginInfo.password) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+        }
+
+        val key = AuthenticationSystem.generateKey(user.user_id)
+        val resCookie = ResponseCookie
+            .from("authentication-key", key)
+            .httpOnly(true)
+            .secure(true)
+            .path("/")
+            .maxAge((1 * 24 * 60 * 60).toLong())
+            .domain("localhost")
+            .build()
+
+        // Set user last login to now
+        user.last_login = LocalDateTime.now(ZoneOffset.UTC)
+        repository.save(user)
+
+
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).build()
+    }
+
+    @RequestMapping("/register", consumes = ["application/json"])
+    fun registerPost(@CookieValue(name = "authentication-key", defaultValue = "") authKey : String, @RequestBody registerInfo : RegisterInfo) : ResponseEntity<Any> {
+
+        // Check if user is already logged in
+        /*if (AuthenticationSystem.userExists(authKey)) {
             return ResponseEntity.ok().build()
         }
         // change username to be lowercase
@@ -56,7 +95,9 @@ class LoginController(private val repository: UserRepository) {
         repository.save(user)
 
 
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).build();
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).build()*/
+
+        return ResponseEntity.ok().build()
     }
 
     @GetMapping("/logout")
@@ -71,7 +112,7 @@ class LoginController(private val repository: UserRepository) {
             .from("authentication-key", null.toString())
             .build()
 
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).build();
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).build()
     }
 
     @GetMapping("/delete-keys")
@@ -86,7 +127,7 @@ class LoginController(private val repository: UserRepository) {
             .from("authentication-key", null.toString())
             .build()
 
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).build();
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).build()
     }
 
 }

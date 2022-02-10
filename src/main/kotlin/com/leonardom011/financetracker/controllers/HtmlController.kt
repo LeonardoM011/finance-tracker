@@ -22,16 +22,22 @@ class HtmlController(private val repository: ItemRepository) {
     }
 
     @GetMapping("/login")
-    fun login() : String {
-        return "login"
+    fun login(@CookieValue(name = "authentication-key", defaultValue = "") authKey : String, model: Model) : String {
+        val userId = AuthenticationSystem.getUserId(authKey) ?: return "login"
+
+        model["userid"] = userId
+        return "index"
     }
 
     @GetMapping("/register")
-    fun register() : String {
-        return "register"
+    fun register(@CookieValue(name = "authentication-key", defaultValue = "") authKey : String, model: Model) : String {
+        val userId = AuthenticationSystem.getUserId(authKey) ?: return "register"
+
+        model["userid"] = userId
+        return "index"
     }
 
-    @GetMapping("/item/{id}")
+    /*@GetMapping("/item/{id}")
     fun item(@PathVariable id: Int, model: Model): String {
         /*val item = repository
             .findById(id)
@@ -42,6 +48,6 @@ class HtmlController(private val repository: ItemRepository) {
         }*/
         model["items"] = repository.findAll()
         return "item"
-    }
+    }*/
 
 }

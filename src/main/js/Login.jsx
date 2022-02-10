@@ -17,27 +17,6 @@ function Login() {
     const [textError, setTextError] = useState(false);
     const [helperTextError, setHelperTextError] = useState("");
 
-    useEffect(() => {
-        // RUN login to check if user is already logged in
-        // TODO: Create another api point to check if cookie is valid
-        const postBody = JSON.stringify({
-            username: username,
-            password: password
-        });
-
-        fetch("/auth/login", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: postBody
-        })
-            .then(response => {
-                if (response.status == 200) {
-                    navigate('/');
-                    window.location.reload();
-                }
-            });
-    }, []);
-
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -55,7 +34,7 @@ function Login() {
                     setWrongPassword("Krivo korisničko ime ili lozinka!");
                     setTextError(true);
                     setHelperTextError("Pokušajte ponovo");
-                } else {
+                } else if (response.status == 200) {
                     navigate('/');
                     window.location.reload();
                 }
