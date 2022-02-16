@@ -2,6 +2,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 import {Grid, Button, TextField, FormControl, InputAdornment, Input} from '@material-ui/core';
 import SendIcon from '@mui/icons-material/Send';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import {AccountCircle, Lock, Email} from "@mui/icons-material";
 import {BrowserRouter, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
@@ -145,7 +146,11 @@ function Register() {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <Button endIcon={<SendIcon />} variant="contained" type={"submit"}>Register</Button>
+                    <Button style={{backgroundColor: "rgb(144, 202, 249)"}} endIcon={<SendIcon />} variant="contained" type={"submit"}>Register</Button>
+                </Grid>
+                <Grid item xs={12} id={"divide"}>
+                    <p>Već imate account, ulogirajte se:</p>
+                    <Button style={{backgroundColor: "rgb(102, 187, 106)"}} endIcon={<ExitToAppIcon />} variant="contained" href="/login">Login</Button>
                 </Grid>
             </Grid>
         </form>);

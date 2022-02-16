@@ -3,6 +3,7 @@ import {BrowserRouter, useNavigate} from "react-router-dom";
 
 const React = require('react');
 import {Grid, Button, TextField, FormControl, InputAdornment, Input} from '@material-ui/core';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import SendIcon from '@mui/icons-material/Send';
 const ReactDOM = require('react-dom');
 import "./Login.css";
@@ -87,7 +88,11 @@ function Login() {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <Button endIcon={<SendIcon />} variant="contained" type={"submit"}>Login</Button>
+                    <Button style={{backgroundColor: "rgb(102, 187, 106)"}} endIcon={<SendIcon />} variant="contained" type={"submit"}>Login</Button>
+                </Grid>
+                <Grid item xs={12} id={"divide"}>
+                    <p>Nemate account, kreirajte ga:</p>
+                    <Button style={{backgroundColor: "rgb(144, 202, 249)"}} endIcon={<ExitToAppIcon />} variant="contained" href="/register">Register</Button>
                 </Grid>
             </Grid>
         </form>);

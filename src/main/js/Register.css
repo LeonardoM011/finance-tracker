@@ -35,3 +35,8 @@ html {
     color: #f44336;
     font-weight: bold;
 }
+
+#divide {
+    margin-top: 14px;
+    border-top: 4px dotted blue;
+}
